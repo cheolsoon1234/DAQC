@@ -33,11 +33,11 @@ static int32_t callback_ws_recv(struct lws *wsi, enum lws_callback_reasons reaso
         case LWS_CALLBACK_CLIENT_RECEIVE: {
             printf("[WS RECV] %.*s\n", (int)len, (char*)in);
             fflush(stdout);
-            sscanf((char*)in, "%d,%d,%d,%d,%d,%d,%d",
+            sscanf((char*)in, "%d,%d,%d,%d,%d,%d,%d,%d",
                    &controls[0], &controls[1], &controls[2],
                    &controls[3], &controls[4], &controls[5],
-                   &controls[6]);
-	    LOG_WRITE_WITH_TIME("[WS_RECV],%d,%d,%d,%d,%d,%d,%d", &controls[0], &controls[1], &controls[2], &controls[3], &controls[4], &controls[5], &controls[6]);
+                   &controls[6], &controls[7]);
+	    LOG_WRITE_WITH_TIME("[WS_RECV],%d,%d,%d,%d,%d,%d,%d,%d", &controls[0], &controls[1], &controls[2], &controls[3], &controls[4], &controls[5], &controls[6], &controls[7]);
             break;
         }
         case LWS_CALLBACK_CLIENT_CONNECTION_ERROR:

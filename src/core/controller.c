@@ -1,8 +1,8 @@
 #include "controller.h"
 
 volatile int32_t arm_flag;
-extern int32_t controls[7];
-volatile int32_t run_controls[7] = {0};
+extern int32_t controls[8];
+volatile int32_t run_controls[8] = {0};
 
 int32_t init_controller(void) {
     // 초기화 코드 작성 (필요 시)
@@ -65,13 +65,13 @@ int32_t check_auto_shutdown(double* val) {
 int32_t run_controller(void) {
 
     int32_t checksum = 0;
-    for (int i = 0; i < 6; i++) { // 체크섬 계산
+    for (int i = 0; i < 7; i++) { // 체크섬 계산
         checksum += controls[i];
     }
 
     if (checksum != controls[6]) {
-        fprintf(stderr, "[WARN] Checksum mismatch: calculated %d, received %d\n", checksum, controls[6]);
-        LOG_WRITE_WITH_TIME("[WARN], Checksum mismatch: calculated %d, received %d", checksum, controls[6]);
+        fprintf(stderr, "[WARN] Checksum mismatch: calculated %d, received %d\n", checksum, controls[7]);
+        LOG_WRITE_WITH_TIME("[WARN], Checksum mismatch: calculated %d, received %d", checksum, controls[7]);
         return -1; // 체크섬 불일치 시 동작하지 않음
     }
 
@@ -197,6 +197,28 @@ int32_t run_controller(void) {
         }
 
         run_controls[4] = controls[4];
+    }
+
+    if (run_controls[6] != controls[6]) {
+        
+        printf("[CTRL] Servo angle command changed: %d -> %d\n", run_controls[6], controls[6]);
+        fflush(stdout);
+
+        if (controls[6] >= 5 && controls[6] <= 85) {  // 서보 작동 범위 5~85도 제한
+
+            // TODO : Add Servo operation function call
+
+            LOG_WRITE_WITH_TIME("[INFO], Servo operated %d", run_controls[6]);
+            printf("[INFO], Servo operated : %d\n", run_controls[6]);
+
+            run_controls[6] = controls[6];
+
+        } else {
+            LOG_WRITE_WITH_TIME("[INFO], Servo operating range exceeded (Input : %d)", controls[6]);
+            printf("[INFO] System operating range exceeded (Input : %d)\n", controls[6]);
+        }
+
+        
     }
 
 

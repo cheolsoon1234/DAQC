@@ -2,7 +2,7 @@
 // Created by cheolsoon on 25. 7. 28.
 //
 #ifndef __GPIO_HANDLER_H__
-#define GPIO_HANDLER_H
+#define __GPIO_HANDLER_H__
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,10 +11,10 @@
 #include <string.h>
 #include <stdint.h>
 
-void GPIO_Export(int32_t);
-void GPIO_Unexport(int32_t);
-void GPIO_Set_Direction(int32_t, const char*);
-void GPIO_Write(int32_t, int32_t);
+int32_t GPIO_Export(int32_t gpio);
+int32_t GPIO_Unexport(int32_t gpio);
+int32_t GPIO_Set_Direction(int32_t gpio, const char* direction);
+int32_t GPIO_Write(int32_t gpio, int32_t value);
 
 #endif // __GPIO_HANDLER_H__
 

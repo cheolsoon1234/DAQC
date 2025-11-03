@@ -13,7 +13,7 @@
 #include "login.h"
 
 extern volatile sig_atomic_t g_stop;
-extern int32_t controls[7];
+extern int32_t controls[8];
 
 double Voltage[10];
 double val[10];
@@ -91,9 +91,9 @@ int32_t main(void) {
 
 
         // logging values
-        LOG_WRITE_WITH_TIME("%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%d,%d,%d,%d,%d,%d,%d", 
+        LOG_WRITE_WITH_TIME("%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%d,%d,%d,%d,%d,%d,%d,%d", 
             Voltage[0], Voltage[1], Voltage[2], Voltage[3], Voltage[4], Voltage[5], Voltage[6], Voltage[7], Voltage[8], Voltage[9], val[0], val[1], val[2], val[3],
-            controls[0], controls[1], controls[2], controls[3], controls[4], controls[5], controls[6]);
+            controls[0], controls[1], controls[2], controls[3], controls[4], controls[5], controls[6], &controls[7]);
 
         if (Check_Login() == 0) {
             fprintf(stderr, "[WARN] No user logged in. Exiting...\n");

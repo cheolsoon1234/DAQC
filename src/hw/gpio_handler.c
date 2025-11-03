@@ -2,62 +2,55 @@
 // Created by cheolsoon on 25. 7. 28.
 //
 #include "gpio_handler.h"
+#include "sysfs_handler.h"
 
-void GPIO_Export(int32_t gpio) {
-    int32_t fd = open("/sys/class/gpio/export", O_WRONLY);
-    if (fd < 0) {
-        fprintf(stderr, "[WARN] ERROR While Export GPIO %d\n", gpio);
-        return;
-    }
-
+int32_t GPIO_Export(int32_t gpio) {
     char buffer[8];
     snprintf(buffer, sizeof(buffer), "%d", gpio);
-    write(fd, buffer, strlen(buffer));
-    close(fd);
-    return;
+
+    if (!write_sysfs("/sys/class/gpio/export", buffer)) {
+        fprintf(stderr, "[WARN] ERROR while exporting GPIO %d\n", gpio);
+        return 0;
+    }
+
+    usleep(100000); // 커널 반영 대기
+    return 1;
 }
 
-void GPIO_Unexport(int32_t gpio) {
-    int32_t fd = open("/sys/class/gpio/unexport", O_WRONLY);
-    if (fd < 0) {
-        fprintf(stderr, "[WARN] ERROR While Unexport GPIO %d\n", gpio);
-        return;
-    }
+int32_t GPIO_Unexport(int32_t gpio) {
     char buffer[8];
     snprintf(buffer, sizeof(buffer), "%d", gpio);
-    write(fd, buffer, strlen(buffer));
-    close(fd);
-    return;
+
+    if (!write_sysfs("/sys/class/gpio/unexport", buffer)) {
+        fprintf(stderr, "[WARN] ERROR while unexporting GPIO %d\n", gpio);
+        return 0;
+    }
+
+    return 1;
 }
 
-void GPIO_Set_Direction(int32_t gpio, const char* direction) {
+int32_t GPIO_Set_Direction(int32_t gpio, const char* direction) {
     char path[64];
     snprintf(path, sizeof(path), "/sys/class/gpio/gpio%d/direction", gpio);
 
-    int32_t fd = open(path, O_WRONLY);
-    if (fd < 0) {
-        fprintf(stderr, "[ERROR] Direction open error\n");
-        return;
+    if (!write_sysfs(path, direction)) {
+        fprintf(stderr, "[ERROR] Failed to set direction for GPIO %d\n", gpio);
+        return 0;
     }
 
-    write(fd, direction, strlen(direction));
-    close(fd);
-    return;
+    return 1;
 }
 
-void GPIO_Write(int32_t gpio, int32_t value) {
+int32_t GPIO_Write(int32_t gpio, int32_t value) {
     char path[64];
     snprintf(path, sizeof(path), "/sys/class/gpio/gpio%d/value", gpio);
 
-    int32_t fd = open(path, O_WRONLY);
-    if (fd < 0) {
-        fprintf(stderr, "[ERROR] Value open error\n");
-        return;
+    const char* val_str = value ? "1" : "0";
+
+    if (!write_sysfs(path, val_str)) {
+        fprintf(stderr, "[ERROR] Failed to write value (%s) to GPIO %d\n", val_str, gpio);
+        return 0;
     }
 
-    if (value)  write(fd, "1", 1);
-    else        write(fd, "0", 1);
-
-    close(fd);
-    return;
+    return 1;
 }
