@@ -40,6 +40,8 @@ int32_t exit_controller(void) {
     GPIO_Unexport(GPIO_SOLENOID);
     GPIO_Unexport(GPIO_IGNITION);
     GPIO_Unexport(GPIO_SIREN);
+
+    deinit_servo(SERVO_0);
     return 1;
 }
 
@@ -206,16 +208,21 @@ int32_t run_controller(void) {
 
         if (controls[6] >= 5 && controls[6] <= 85) {  // 서보 작동 범위 5~85도 제한
 
-            // TODO : Add Servo operation function call
-
-            LOG_WRITE_WITH_TIME("[INFO], Servo operated %d", run_controls[6]);
-            printf("[INFO], Servo operated : %d\n", run_controls[6]);
+            if (servo_setAngle(SERVO_0, controls[6])) {
+                LOG_WRITE_WITH_TIME("[INFO], Servo operated %d", run_controls[6]);
+                printf("[INFO], Servo operated : %d\n", run_controls[6]);
+            } else {
+                LOG_WRITE_WITH_TIME("[INFO], Servo operation failure (Input : %d)", controls[6]);
+                printf("[INFO] Servo operation failure (Input : %d)\n", controls[6]);
+                printf("[INFO] Exiting Program\n");
+                exit(1);
+            }
 
             run_controls[6] = controls[6];
 
         } else {
             LOG_WRITE_WITH_TIME("[INFO], Servo operating range exceeded (Input : %d)", controls[6]);
-            printf("[INFO] System operating range exceeded (Input : %d)\n", controls[6]);
+            printf("[INFO] Servo operating range exceeded (Input : %d)\n", controls[6]);
         }
 
         

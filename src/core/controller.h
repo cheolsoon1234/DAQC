@@ -6,6 +6,7 @@
 #include "net.h"
 #include "logger.h"
 #include "gpio_handler.h"
+#include "servo_handler.h"
 
 #define GPIO_SOLENOID 517
 #define GPIO_SIREN 538

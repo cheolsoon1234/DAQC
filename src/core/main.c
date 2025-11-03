@@ -11,6 +11,7 @@
 #include "voltage_mapper.h"
 #include "controller.h"
 #include "login.h"
+#include "servo_handler.h"
 
 extern volatile sig_atomic_t g_stop;
 extern int32_t controls[8];
@@ -41,6 +42,12 @@ static int32_t init(void) {
     if (init_ws() != 0) {
         fprintf(stderr, "[ERROR] init_ws failed\n");
         LOG_WRITE_WITH_TIME("[ERROR], init_ws failed");
+        return -1;
+    }
+
+    if (!init_servo(SERVO_0, INITIAL_ANGLE)) {
+        fprintf(stderr, "[ERROR] init_servo failed\n");
+        LOG_WRITE_WITH_TIME("[ERROR], init_servo failed");
         return -1;
     }
 
