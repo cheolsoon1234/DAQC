@@ -1,4 +1,5 @@
 #include "login.h"
+#include <stdio.h>
 
 int32_t Check_Login(void) {
     struct utmp *entry;

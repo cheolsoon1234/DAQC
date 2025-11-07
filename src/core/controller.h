@@ -8,9 +8,9 @@
 #include "gpio_handler.h"
 #include "servo_handler.h"
 
-#define GPIO_SOLENOID 517
-#define GPIO_SIREN 538
-#define GPIO_IGNITION 528
+#define GPIO_SOLENOID   517
+#define GPIO_SIREN      538
+#define GPIO_IGNITION   528
 
 int32_t init_controller(void);
 int32_t exit_controller(void);

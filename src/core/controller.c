@@ -37,11 +37,8 @@ int32_t exit_controller(void) {
     GPIO_Write(GPIO_IGNITION, 0);
     GPIO_Write(GPIO_SIREN, 0);
 
-    GPIO_Unexport(GPIO_SOLENOID);
-    GPIO_Unexport(GPIO_IGNITION);
-    GPIO_Unexport(GPIO_SIREN);
-
     deinit_servo(SERVO_0);
+
     return 1;
 }
 

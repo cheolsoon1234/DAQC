@@ -13,11 +13,11 @@
 #include "signal_handler.h"
 
 extern struct lws_context *context;
-extern pthread_mutex_t voltage_mutex;
 
 // #define SERVER_ADDRESS "172.17.88.75"
 // #define SERVER_ADDRESS "13.125.103.172"
-#define SERVER_ADDRESS "192.168.0.90"
+// #define SERVER_ADDRESS "192.168.0.90"
+#define SERVER_ADDRESS "192.168.108.42"
 #define SERVER_PORT 3304
 
 

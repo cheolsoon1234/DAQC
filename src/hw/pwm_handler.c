@@ -3,6 +3,7 @@
 //
 #include "pwm_handler.h"
 #include "sysfs_handler.h"
+#include <unistd.h>
 
 #define PWM_CHIP_PATH "/sys/class/pwm/pwmchip0"
 

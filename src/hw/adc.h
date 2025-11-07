@@ -3,6 +3,7 @@
 
 
 #include "ADS1263.h"
+#include "DEV_Config.h"
 
 #include <stdint.h> // int32_t
 #include <stdlib.h> // exit(0)

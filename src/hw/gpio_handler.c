@@ -3,6 +3,7 @@
 //
 #include "gpio_handler.h"
 #include "sysfs_handler.h"
+#include <unistd.h>
 
 int32_t GPIO_Export(int32_t gpio) {
     char buffer[8];

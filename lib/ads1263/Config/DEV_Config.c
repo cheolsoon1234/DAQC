@@ -258,6 +258,8 @@ void DEV_GPIO_Init(void)
 	DEV_GPIO_Mode(DEV_DRDY_PIN, 0);
 	
 	DEV_Digital_Write(DEV_CS_PIN, 1);
+	printf("[DEBUG] RST=%d, CS=%d, DRDY=%d\n", DEV_RST_PIN, DEV_CS_PIN, DEV_DRDY_PIN);
+
 }
 
 /******************************************************************************

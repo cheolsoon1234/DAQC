@@ -31,15 +31,13 @@ int32_t init_servo(int32_t pwm_channel, int32_t initial_angle) {
         return 0;
     }
 
-    usleep(100000); // export 반영 대기
-
-    if (!PWM_Set_Period(pwm_channel, SERVO_PERIOD_NS)) {
+    if (!pwm_set_period(pwm_channel, SERVO_PERIOD_NS)) {
         fprintf(stderr, "[ERROR] Failed to set PWM period\n");
         return 0;
     }
 
     // 초기 각도 적용
-    if (!Servo_SetAngle(pwm_channel, initial_angle)) {
+    if (!servo_setAngle(pwm_channel, initial_angle)) {
         fprintf(stderr, "[ERROR] Failed to set initial servo angle\n");
         return 0;
     }
@@ -67,13 +65,13 @@ int32_t servo_setAngle(int32_t pwm_channel, int32_t angle) {
 }
 
 int32_t deinit_servo(int32_t pwm_channel) {
-    if (!PWM_Enable(pwm_channel, 0)) {
+    if (!pwm_enable(pwm_channel, 0)) {
         fprintf(stderr, "[WARN] Failed to disable PWM channel %d\n", pwm_channel);
     }
 
-    if (!PWM_Unexport(pwm_channel)) {
-        fprintf(stderr, "[WARN] Failed to unexport PWM channel %d\n", pwm_channel);
-    }
+    // if (!pwm_unexport(pwm_channel)) {
+    //     fprintf(stderr, "[WARN] Failed to unexport PWM channel %d\n", pwm_channel);
+    // }
 
     return 1;
 }

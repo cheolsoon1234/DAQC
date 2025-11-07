@@ -45,6 +45,8 @@ set(ADS1263_SRC
     ${CMAKE_SOURCE_DIR}/lib/ads1263/Driver/ADS1263.c
 )
 
+set(CMAKE_C_EXTENSIONS ON)
+
 # 실행 파일
 add_executable(tms
     ${CORE_SRC}

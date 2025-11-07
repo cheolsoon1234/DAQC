@@ -66,16 +66,16 @@ static int32_t callback_ws_send(struct lws *wsi, enum lws_callback_reasons reaso
             lws_callback_on_writable(wsi);
             break;
         case LWS_CALLBACK_CLIENT_CONNECTION_ERROR:
-            lwsl_err("Connection error %s/ws-addData\n", SERVER_ADDRESS);
+            lwsl_err("Connection error: %s\n", strerror(errno));
             ws_send_wsi = NULL;
-            LOG_WRITE_WITH_TIME("[ERROR], Connection error %s/ws-addData", SERVER_ADDRESS);
-            printf("[ERROR] Connection error %s/ws-addData\n", SERVER_ADDRESS);
+            LOG_WRITE_WITH_TIME("[ERROR], Connection error %s / %s", SERVER_ADDRESS, strerror(errno));
+            printf("[ERROR] Connection error %s/ws-addData / %s\n", SERVER_ADDRESS, strerror(errno));
             exit(1);
         case LWS_CALLBACK_CLOSED:
-            lwsl_user("Disconnected from %s/ws-addData\n", SERVER_ADDRESS);
+            lwsl_user("Disconnected from %s/ws-addData / %s\n", SERVER_ADDRESS, strerror(errno));
             ws_send_wsi = NULL;
-            LOG_WRITE_WITH_TIME("[INFO], Disconnected from %s/ws-addData", SERVER_ADDRESS);
-            printf("[INFO] Disconnected from %s/ws-addData\n", SERVER_ADDRESS);
+            LOG_WRITE_WITH_TIME("[INFO], Disconnected from %s/ws-addData %s", SERVER_ADDRESS, strerror(errno));
+            printf("[INFO] Disconnected from %s/ws-addData / %s\n", SERVER_ADDRESS, strerror(errno));
             exit(1);
         case LWS_CALLBACK_CLIENT_WRITEABLE: {
             if (has_pending_message && ws_send_wsi) {
@@ -162,13 +162,18 @@ static int check_fd(struct lws *wsi) {
     int fd = lws_get_socket_fd(wsi);
     if (fd < 0) return -1;
 
-    struct pollfd pfd;
+    struct pollfd pfd = {0};
     pfd.fd = fd;
     pfd.events = POLLIN;
-    int ret = poll(&pfd, 1, 0);  // timeout 없이 즉시 반환
+
+    int ret = poll(&pfd, 1, 0);
     if (ret > 0) {
-        if (pfd.revents & (POLLHUP | POLLERR)) return -1;
+        if (pfd.revents & (POLLHUP | POLLERR)) {
+            lwsl_err("Connection lost (fd=%d)\n", fd);
+            return -1;
+        }
     } else if (ret < 0) {
+        lwsl_err("poll error (fd=%d): %s\n", fd, strerror(errno));
         return -1;
     }
     return 0;
