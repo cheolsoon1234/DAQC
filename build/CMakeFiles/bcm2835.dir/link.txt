@@ -1,0 +1,2 @@
+/usr/bin/ar qc libbcm2835.a CMakeFiles/bcm2835.dir/lib/bcm2835/bcm2835.c.o
+/usr/bin/ranlib libbcm2835.a

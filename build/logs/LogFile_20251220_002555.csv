@@ -1,0 +1,4 @@
+00:25:55.379883, logger started
+00:25:55.380282, [ERROR], init_adc failed
+00:25:55.380394, [ERROR], initialization failed
+00:25:55.380444, [INFO] Controller exiting, resetting GPIOs

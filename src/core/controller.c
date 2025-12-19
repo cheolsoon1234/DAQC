@@ -68,7 +68,7 @@ int32_t run_controller(void) {
         checksum += controls[i];
     }
 
-    if (checksum != controls[6]) {
+    if (checksum != controls[7]) {
         fprintf(stderr, "[WARN] Checksum mismatch: calculated %d, received %d\n", checksum, controls[7]);
         LOG_WRITE_WITH_TIME("[WARN], Checksum mismatch: calculated %d, received %d", checksum, controls[7]);
         return -1; // 체크섬 불일치 시 동작하지 않음
@@ -203,11 +203,11 @@ int32_t run_controller(void) {
         printf("[CTRL] Servo angle command changed: %d -> %d\n", run_controls[6], controls[6]);
         fflush(stdout);
 
-        if (controls[6] >= 5 && controls[6] <= 85) {  // 서보 작동 범위 5~85도 제한
+        if (controls[6] >= 0 && controls[6] <= 90) {  // 서보 작동 범위 0~90도 제한
 
             if (servo_setAngle(SERVO_0, controls[6])) {
-                LOG_WRITE_WITH_TIME("[INFO], Servo operated %d", run_controls[6]);
-                printf("[INFO], Servo operated : %d\n", run_controls[6]);
+                LOG_WRITE_WITH_TIME("[INFO], Servo operated %d", controls[6]);
+                printf("[INFO], Servo operated : %d\n", controls[6]);
             } else {
                 LOG_WRITE_WITH_TIME("[INFO], Servo operation failure (Input : %d)", controls[6]);
                 printf("[INFO] Servo operation failure (Input : %d)\n", controls[6]);
@@ -220,6 +220,7 @@ int32_t run_controller(void) {
         } else {
             LOG_WRITE_WITH_TIME("[INFO], Servo operating range exceeded (Input : %d)", controls[6]);
             printf("[INFO] Servo operating range exceeded (Input : %d)\n", controls[6]);
+            run_controls[6] = controls[6];
         }
 
         

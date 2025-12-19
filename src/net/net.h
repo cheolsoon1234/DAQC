@@ -17,7 +17,7 @@ extern struct lws_context *context;
 // #define SERVER_ADDRESS "172.17.88.75"
 // #define SERVER_ADDRESS "13.125.103.172"
 // #define SERVER_ADDRESS "192.168.0.90"
-#define SERVER_ADDRESS "192.168.108.42"
+#define SERVER_ADDRESS "192.168.0.14"
 #define SERVER_PORT 3304
 
 

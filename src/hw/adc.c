@@ -1,18 +1,14 @@
 #include "adc.h"
+#include "DEV_Config.h"
 //#include "util/logger.h"
 //#include "net/net.h"
 
 int32_t init_adc(void) {
-    DEV_Module_Init();
-    DEV_GPIO_Mode(DEV_RST_PIN, 1);   // OUTPUT으로 강제 설정
-    DEV_Digital_Write(DEV_RST_PIN, 1);
-    DEV_Delay_ms(300);
-    DEV_Digital_Write(DEV_RST_PIN, 0);
-    DEV_Delay_ms(300);
-    DEV_Digital_Write(DEV_RST_PIN, 1);
-    DEV_Delay_ms(300);
 
-
+    if (DEV_Module_Init() != 0) {
+        fprintf(stderr, "DEV_ModuleInit failed\n");
+        return -1;
+    }
     // 0 is singleChannel, 1 is diffChannel
     ADS1263_SetMode(1);
 
@@ -21,7 +17,7 @@ int32_t init_adc(void) {
     if(ADS1263_init_ADC1(ADS1263_1200SPS) == 1) {
         printf("\r\n END \r\n");
         DEV_Module_Exit();
-        return 0;
+        return -1;
     }
     return 1;
 }
