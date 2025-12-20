@@ -1,5 +1,0 @@
-/home/rpi/DAQC/build/CMakeFiles/bcm2835.dir
-/home/rpi/DAQC/build/CMakeFiles/ads1263.dir
-/home/rpi/DAQC/build/CMakeFiles/tms.dir
-/home/rpi/DAQC/build/CMakeFiles/edit_cache.dir
-/home/rpi/DAQC/build/CMakeFiles/rebuild_cache.dir

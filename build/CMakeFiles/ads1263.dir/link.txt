@@ -1,2 +1,0 @@
-/usr/bin/ar qc libads1263.a CMakeFiles/ads1263.dir/lib/ads1263/Config/DEV_Config.c.o CMakeFiles/ads1263.dir/lib/ads1263/Config/dev_hardware_SPI.c.o CMakeFiles/ads1263.dir/lib/ads1263/Driver/ADS1263.c.o
-/usr/bin/ranlib libads1263.a
